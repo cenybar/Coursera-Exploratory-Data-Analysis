@@ -107,3 +107,106 @@ with(subset(pollution, region == "east"), plot(latitude, pm25, main = "East"))
  # R Graph Gallery
  # R bloggers
 
+### LESSON 2: PLOTTING
+
+# base plot
+
+library(datasets)
+data(cars)
+with(cars, plot(speed,dist))
+
+# the lattice system
+
+library(lattice)
+
+# ggplot2
+
+library(ggplot2)
+data(mpg)
+qplot(displ, hwy, data = mpg)
+        
+# Simple Base Graphics: Histogram
+
+library(datasets)
+hist(airquality$Ozone) # Draw a new plot
+
+# Scatterplot
+
+with(airquality, plot(Wind,Ozone))
+
+
+# Boxplot
+
+airquality <- transform(airquality, Month = factor(Month))
+boxplot(Ozone ~ Month, airquality, xlab = "Month", ylab ="Ozone")
+
+# some important base graphic parameters
+
+ # pch: the plotting sympbol (default is open circle)
+ # lty: the line type (default is solid line), can be dashed, dotted, etc.
+ # lwd: the line width, specified as an interger multiple
+ # col: the plotting color, specified as a number, string, or hex code; 
+     # the colors() function gives you a vector of colors by name
+ # xlab: character string for the x-axis label
+ # ylab: character string for the y-axis label
+
+# the par() function used to specify global graphics parameters
+
+ # las: the orientation of the axis label on the plot
+ # bg: the background color
+ # mar: the margin size
+ # oma: the outer margin size (default is 0)
+ # mfrow: number of plots per row, column (plots are filled row-wise)
+ # mfcol: number of plots per row, column (plots are filled column-wise)
+
+par("lty") # para ver los valores default de cada parámetro
+
+# base plotting functions
+
+ # plot: make a scatterplot, or other type of plot depending on the class of the object being plotted
+ # lines: add lines to a plot, given a vector x values and a corresponding vector of y values
+ # points: add points to a plot
+ # text: add text labels to a plot using specified x, y coordinates
+ # title: add annotations to x, y axis labels, title, subtitle, outer margin
+ # mtext: add arbitrary text to the margins (inner or outer) of the plot
+ # axis: adding axis ticks/labels
+
+library(datasets)
+with(airquality, plot(Wind, Ozone))
+title(main = "Ozone and Wind in NYC")
+
+with(airquality, plot(Wind, Ozone, main = "Ozone and Wind in NYC")) # metodo alternativo para titular
+with(subset(airquality, Month == 5), points(Wind, Ozone, col = "blue")) # destaco en azul los valores de mayo
+
+with(airquality, plot(Wind, Ozone, main = "Ozone and Wind in NYC",
+                      type = "n")) # pone el canvas en blanco el "n"
+with(subset(airquality, Month == 5), points(Wind, Ozone, col = "blue"))
+with(subset(airquality, Month != 5), points(Wind, Ozone, col = "red"))
+legend("topright", pch = 1, col = c("blue", "red"), legend = c("May", "Other months"))
+
+# base plot with regression line
+
+with(airquality, plot(Wind, Ozone, main = "Ozone and Wind in NYC",
+                      pch = 20)) # el valor de pch determina el tamaño del círculo
+model <- lm(Ozone ~ Wind, airquality)
+abline(model, lwd = 2)
+
+# multiple base plots
+
+par(mfrow = c(1,2))
+with(airquality, {
+        plot(Wind, Ozone, main = "Ozone and Wind")
+        plot(Solar.R, Ozone, main = "Ozone and Solar")
+})
+
+par(mfrow = c(1,3), mar = c(4,4,2,1), oma = c(0,0,2,0)) # mar y oma manejan los margenes, el margen y el outermargen
+with(airquality, {
+        plot(Wind, Ozone, main = "Ozone and Wind")
+        plot(Solar.R, Ozone, main = "Ozone and Solar")
+        plot(Temp, Ozone, main = "Ozone and Temperature")
+        mtext("Ozone and Weather in NYC", outer = TRUE) # para poner un título fuera del gráfico con outer
+})
+
+## useful tips
+
+example(points) # está bueno para repasar las posibilidades gráficas que tiene R
