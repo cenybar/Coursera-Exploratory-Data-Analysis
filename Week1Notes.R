@@ -209,4 +209,54 @@ with(airquality, {
 
 ## useful tips
 
-example(points) # está bueno para repasar las posibilidades gráficas que tiene R
+example(points) # está bueno para repasar las posibilidades gráficas que tiene R, esto lanza una demo
+                # que te vá mostrando cosas para hacer.
+
+### LESSON 3: GRAPHICS DEVICES
+
+# screen device in linux/unix: x11()
+
+# how does a plot gets created?
+        # two main aprroaches
+                # first one: create a plot using a function like plot, xplot, qplot 
+                # the plot appears on the screen
+                # you can make some annotations
+                # Example:
+library(datasets)
+with(faithful, plot(eruptions, waiting)) # make a plot appear on screen
+title(main = "Old Faithfull Geyser Data") # annotate with a title
+
+                # second one: involves launching a file device
+                # explicitly launch a file device
+                # call a plotting function (if using file device, no plot will appear on screen)
+                # annotate plot if necessary
+                # explicity close graphics device with def.off ## THIS IS VERY IMPORTANT ##
+
+pdf(file = "myplot.pdf") # open pdf device; create "myplot.pdf" in my working directory
+## create plot and send to a file (no plot appears on screen)
+with(faithful, plot(eruptions, waiting))
+title(main="Old Faithful Geyser data") # annotate plot; still nothing on screen
+dev.off() ## close the PDF file device
+## now you can view the file "myplot.pdf" on your computer 
+
+
+# multiple open graphics devices
+
+ # it is possible to open multiple graphic devices 
+ # plotting can ocurr on one graphic at a time
+ # the current active graphic device can be found calling dev.cur()
+ # you can change the active graphic device with dev.set(interger)
+ # where interger is the number associated with the graphics you want to switch to
+
+# copying plots
+
+dev.copy # copy a plot from one device to other
+dev.copy2pdf # specifically copy a plot to a PDF file
+ # copying is not an exact operation, the copy may not be identical to the original
+
+library(datasets)
+with(faithful, plot(eruptions, waiting)) # create plot on screen device
+title(main = "Old Faithfull Geyser Data") # annotate with a title
+dev.copy(png, file ="geyserplot.png") # copy plot to PNG file
+dev.off() # DON'T FORGET TO CLOSE PNG DEVICE
+
