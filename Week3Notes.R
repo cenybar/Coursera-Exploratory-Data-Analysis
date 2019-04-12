@@ -291,3 +291,38 @@ image(t(faceData)[,nrow(faceData):1], main = "(d)")  ## Original data
 #* [Factor analysis](http://en.wikipedia.org/wiki/Factor_analysis)
 #* [Independent components analysis](http://en.wikipedia.org/wiki/Independent_component_analysis)
 #* [Latent semantic analysis](http://en.wikipedia.org/wiki/Latent_semantic_analysis)
+
+
+### WORKING WITH COLOR
+
+# the grDevices package has 2 functions:
+ # colorRamp
+ # colorRampPaletter
+
+library(grDevices)
+
+pal <- colorRamp(c("red", "blue"))
+pal(0) # values take between 0 and 1
+pal(1)
+pal(.5)
+pal(seq(0,1,len=10))
+
+pal <- colorRampPalette(c("yellow", "red"))
+pal(2) #interger values
+pal(10)    
+
+# RColorBrewer Package - contains interesting/useful color palettes
+
+# The smoothScatter function is useful to plot big amounts of data, where
+# the overlapping might make it difficult to see anything:
+x <- rnorm(10000)
+y <- rnorm(10000)
+smoothScatter(x,y) #uses the blues palette of the RColorBrewer Package
+                   # by default (dark blue, high density)
+
+# the rgb funcion can be used to produce any color via red, green, blue proportions,
+# the alpha parameter can be added to add transparency 
+
+plot(x,y,pch=19) # very difficult to see (overlapping)
+
+plot(x,y,col=rgb(0,0,0,0.2),pch=19) # better view
